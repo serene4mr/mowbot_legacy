@@ -1,6 +1,0 @@
-#!/bin/bash
-
-docker stop mowbot_legacy_bring_up
-docker stop mowbot_legacy_gps_wp_follower
-docker stop mowbot_legacy_gps_wp_logger
-docker stop mowbot_legacy_health_monitor

@@ -20,6 +20,26 @@ else
     cp -r "$DATA_SRC" "$DATA_DEST"
 fi
 
+# 3. Optionally Update Robot Model
+DEFAULT_MODEL="mowbot-T1"
+echo ""
+if [ -f "$CONFIG_FILE" ]; then
+    read -p "Robot config exists. Update model? (y/N): " UPDATE_CHOICE
+    UPDATE_CHOICE=${UPDATE_CHOICE,,}
+    if [[ "$UPDATE_CHOICE" == "y" ]]; then
+        read -p "Enter robot model [mowbot-T1/mowbot-T2] (default: $DEFAULT_MODEL): " MODEL
+        MODEL="${MODEL:-$DEFAULT_MODEL}"
+        echo "robot_model: $MODEL" > "$CONFIG_FILE"
+        echo "Robot model updated to '$MODEL' in $CONFIG_FILE."
+    else
+        MODEL=$(awk -F': ' '/robot_model:/ {print $2}' "$CONFIG_FILE")
+        echo "Keeping existing robot model: $MODEL"
+    fi
+else
+    echo "robot_model: $DEFAULT_MODEL" > "$CONFIG_FILE"
+    echo "No config found. Defaulting to robot model: $DEFAULT_MODEL"
+fi
+
 
 echo
 echo "Update complete!"

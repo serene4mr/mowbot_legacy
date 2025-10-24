@@ -41,14 +41,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Install Foxglove Bridge package
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     git clone https://github.com/serene4mr/foxglove-bridge-pkg-0.8.5.git /tmp/foxglove-bridge-pkg \
-    && cp -r /tmp/foxglove-bridge-pkg/* /opt/ros/${ROS_DISTRO}/ \
-    && chmod +x /opt/ros/${ROS_DISTRO}/register_package.sh \
+    && chmod +x /tmp/foxglove-bridge-pkg/install_foxglove.sh \
+    && /tmp/foxglove-bridge-pkg/install_foxglove.sh \
     && rm -rf /tmp/foxglove-bridge-pkg
-
-# Register Foxglove Bridge package with ROS 2
-RUN rm -rf /opt/ros/${ROS_DISTRO}/lib/foxglove_bridge && \
-    mkdir -p /opt/ros/${ROS_DISTRO}/lib/foxglove_bridge && \
-    /opt/ros/${ROS_DISTRO}/register_package.sh
 
 # Copy source and Generate install package lists
 COPY src /mowbot_legacy/src

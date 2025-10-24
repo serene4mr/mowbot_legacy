@@ -46,7 +46,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && rm -rf /tmp/foxglove-bridge-pkg
 
 # Register Foxglove Bridge package with ROS 2
-RUN /opt/ros/${ROS_DISTRO}/register_package.sh
+RUN rm -rf /opt/ros/${ROS_DISTRO}/lib/foxglove_bridge && \
+    mkdir -p /opt/ros/${ROS_DISTRO}/lib/foxglove_bridge && \
+    /opt/ros/${ROS_DISTRO}/register_package.sh
 
 # Copy source and Generate install package lists
 COPY src /mowbot_legacy/src

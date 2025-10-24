@@ -12,7 +12,7 @@ USER_NAME=${LOCAL_USER}
 GROUP_ID=${LOCAL_GID}
 GROUP_NAME=${LOCAL_GROUP}
 
-Check if any of the variables are empty
+# Check if any of the variables are empty
 if [[ -z $USER_ID || -z $USER_NAME || -z $GROUP_ID || -z $GROUP_NAME ]]; then
     source "/opt/ros/$ROS_DISTRO/setup.bash"
     source /opt/mowbot_legacy/setup.bash

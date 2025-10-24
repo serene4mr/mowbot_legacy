@@ -38,6 +38,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   && /mowbot_legacy/cleanup_apt.sh \
   && echo "source /opt/ros/${ROS_DISTRO}/setup.bash" > /etc/bash.bashrc
 
+# Install Foxglove Bridge package
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    git clone https://github.com/serene4mr/foxglove-bridge-pkg-0.8.5.git /tmp/foxglove-bridge-pkg \
+    && cp -r /tmp/foxglove-bridge-pkg/* /opt/ros/${ROS_DISTRO}/ \
+    && rm -rf /tmp/foxglove-bridge-pkg
+
 # Copy source and Generate install package lists
 COPY src /mowbot_legacy/src
 RUN /mowbot_legacy/resolve_rosdep_keys.sh /mowbot_legacy/src ${ROS_DISTRO} \

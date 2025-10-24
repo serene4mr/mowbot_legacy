@@ -42,6 +42,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     git clone https://github.com/serene4mr/foxglove-bridge-pkg-0.8.5.git /tmp/foxglove-bridge-pkg \
     && cp -r /tmp/foxglove-bridge-pkg/* /opt/ros/${ROS_DISTRO}/ \
+    && chmod +x /opt/ros/${ROS_DISTRO}/register_package.sh \
     && rm -rf /tmp/foxglove-bridge-pkg
 
 # Register Foxglove Bridge package with ROS 2

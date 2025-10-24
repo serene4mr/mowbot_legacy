@@ -44,6 +44,15 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && cp -r /tmp/foxglove-bridge-pkg/* /opt/ros/${ROS_DISTRO}/ \
     && rm -rf /tmp/foxglove-bridge-pkg
 
+# Fix Foxglove Bridge package registration - move files to proper package directory
+RUN mkdir -p /opt/ros/${ROS_DISTRO}/share/foxglove_bridge \
+    && mv /opt/ros/${ROS_DISTRO}/share/package.xml /opt/ros/${ROS_DISTRO}/share/foxglove_bridge/ \
+    && mv /opt/ros/${ROS_DISTRO}/share/launch/foxglove_bridge_launch.xml /opt/ros/${ROS_DISTRO}/share/foxglove_bridge/ \
+    && mv /opt/ros/${ROS_DISTRO}/share/cmake /opt/ros/${ROS_DISTRO}/share/foxglove_bridge/ \
+    && mv /opt/ros/${ROS_DISTRO}/share/environment /opt/ros/${ROS_DISTRO}/share/foxglove_bridge/ \
+    && mv /opt/ros/${ROS_DISTRO}/share/local_setup.* /opt/ros/${ROS_DISTRO}/share/foxglove_bridge/ 2>/dev/null || true \
+    && mv /opt/ros/${ROS_DISTRO}/share/package.dsv /opt/ros/${ROS_DISTRO}/share/foxglove_bridge/ 2>/dev/null || true
+
 # Copy source and Generate install package lists
 COPY src /mowbot_legacy/src
 RUN /mowbot_legacy/resolve_rosdep_keys.sh /mowbot_legacy/src ${ROS_DISTRO} \
